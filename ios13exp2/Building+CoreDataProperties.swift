@@ -12,7 +12,7 @@ import CoreData
 
 
 extension Building {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Building> {
         return NSFetchRequest<Building>(entityName: "Building")
     }
@@ -21,5 +21,23 @@ extension Building {
     @NSManaged public var location: String
     @NSManaged public var favourite: Bool
     @NSManaged public var image: String
+    
+    convenience init(context: NSManagedObjectContext, name: String, location: String, favourite: Bool, image: String) {
+        self.init(context: context)
+        
+        self.name = name
+        self.location = location
+        self.favourite = favourite
+        self.image = image
+    }
+    
+    convenience init(context: NSManagedObjectContext, name: String, location: String, image: String) {
+        self.init(context: context)
+        
+        self.name = name
+        self.location = location
+        self.favourite = false
+        self.image = image
+    }
 
 }
