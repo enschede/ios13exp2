@@ -19,77 +19,58 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-//            VStack {
-                List {
-                    Toggle(isOn: $showFavoritesOnly) {
-                        Text("Favorites only")
-                    }
-                    
-                    
-                    ForEach(self.buildings, id: \.self) { room in
-                        if(!self.showFavoritesOnly || room.favourite) {
-                            Text("blah")
-//                            NavigationLink(destination: DetailView(room: room)) {
-//                                Text(room.name)
-                            }
-                        }
-                    }
-
-                    
-//                    ForEach(self.buildings, id: \.self) { building in
-//
-//                        if(!self.showFavoritesOnly || building.favourite) {
-//                            Text(building.name)
-//                        }
-//
-//                        if(true) {
-//                            NavigationLink(destination:
-//                                VStack {
-//                                    Image(building.image)
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: ContentMode.fit)
-//
-//                                    HStack {
-//                                        Text(building.name)
-//                                            .font(Font.largeTitle)
-//
-//                                        Spacer()
-//
-//                                        Button(action: {
-//                                            building.favourite.toggle()
-//                                            do {
-//                                                try self.moc.save()
-//                                            } catch {
-//                                                print("Whoop...")
-//                                            }
-//                                        }) {
-//                                            if building.favourite {
-//                                                Image(systemName: "star.fill")
-//                                                    .foregroundColor(Color.yellow)
-//                                            } else {
-//                                                Image(systemName: "star")
-//                                                    .foregroundColor(Color.gray)
-//                                            }
-//                                        }
-//
-//                                    }
-//
-//                                    HStack {
-//                                        Text(building.location)
-//                                            .lineLimit(nil)
-//                                        Spacer()
-//                                    }
-//
-//                                    Spacer()
-//                                }.padding()
-//                            ) {
-//                                Text(building.name)
-//                            }
-//                        }
-//                    }
+            List {
+                Toggle(isOn: $showFavoritesOnly) {
+                    Text("Favorites only")
                 }
                 
-//                Button(action: {
+                ForEach(self.buildings.filter({b in self.showFavoritesOnly || b.favourite}), id: \.self) { building in
+                    NavigationLink(destination:
+                        VStack {
+                            Image(building.image)
+                                .resizable()
+                                .aspectRatio(contentMode: ContentMode.fit)
+                            
+                            HStack {
+                                Text(building.name)
+                                    .font(Font.largeTitle)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    building.favourite.toggle()
+                                    do {
+                                        try self.moc.save()
+                                    } catch {
+                                        print("Whoop...")
+                                    }
+                                }) {
+                                    if building.favourite {
+                                        Image(systemName: "star.fill")
+                                            .foregroundColor(Color.yellow)
+                                    } else {
+                                        Image(systemName: "star")
+                                            .foregroundColor(Color.gray)
+                                    }
+                                }
+                                
+                            }
+                            
+                            HStack {
+                                Text(building.location)
+                                    .lineLimit(nil)
+                                Spacer()
+                            }
+                            
+                            Spacer()
+                        }.padding()
+                    ) {
+                        Text(building.name)
+                    }
+                }
+                
+                Button(action: {
+                    
 //                    let _ = Building(context: self.moc, name: "Zara", location: "Van Heekplein", image: "Zara")
 //                    let _ = Building(context: self.moc, name: "Hudsons Bay", location: "Van Heekplein", favourite: true, image: "Hudsons Bay")
 //                    let _ = Building(context: self.moc, name: "Performance Factory", location: "Hoge Bothofstraat", image: "Performance Factory")
@@ -102,17 +83,17 @@ struct ContentView: View {
 //                    let _ = Building(context: self.moc, name: "Alphatoren", location: "Mooienhof", image: "Alphatoren")
 //                    let _ = Building(context: self.moc, name: "Grolsch Veste", location: "Colosseum", favourite: true, image: "Grolsch Veste")
 //                    let _ = Building(context: self.moc, name: "Primark", location: "Van Heekplein", image: "Primark")
-//
-//                    do {
-//                        try self.moc.save()
-//                    } catch {
-//                        print("Whoop...")
-//                    }
-//                }) {
-//                    Text("Add")
-//                }
-//            }.navigationBarTitle("Buildings in Enschede")
-//        }
+                    
+                    do {
+                        try self.moc.save()
+                    } catch {
+                        print("Whoop...")
+                    }
+                }) {
+                    Text("Add")
+                }
+            }.navigationBarTitle("Buildings in Enschede")
+        }
     }
 }
 
